@@ -1,4 +1,4 @@
-# TCP Tunneling for containers
+# TCP Tunneling for containers over SSH
 
 ## Description
 
