@@ -1,4 +1,6 @@
-## TCP Tunneling for containers
+# TCP Tunneling for containers
+
+## Description
 
 This image is a super simple to use helper for using tunneling on your Docker project. This allows you to access remote resources network protected behind an SSH authentication entry server.
 
@@ -57,3 +59,7 @@ For example you can add to your `docker-compose.yml` a new service like this one
 | TUNNEL_TARGET_HOST | `""` | The host of the target. This is usually an internal network address that is only accessible from within the SSH tunnel server. |
 | TUNNEL_TARGET_PORT | `""` | The port of the target. |
 | TUNNEL_LISTEN | `""` | The port to which the container should bind to. This is the port you are going to reach in the container to access the target host:post through the tunneling. |
+
+## License
+
+The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
