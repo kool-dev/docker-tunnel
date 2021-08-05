@@ -49,6 +49,25 @@ For example you can add to your `docker-compose.yml` a new service like this one
 
 > **Note**: You may wanna add the same `network:` to this service as well, in case you other services already specify some custom network.
 
+**Creating a single container**
+
+If you just want to start a tunnel and maybe bind it to your machine you can do:
+
+```bash
+docker run --rm \
+    -v ~/.ssh:/root/.ssh \
+    -e TUNNEL_SSH_PORT=22 \
+    -e TUNNEL_SSH_USER=username \
+    -e TUNNEL_SSH_HOST=example.com \
+    -e TUNNEL_TARGET_HOST=192.168.0.25 \
+    -e TUNNEL_TARGET_PORT=3306 \
+    -e TUNNEL_LISTEN=13306 \
+    -p 13306:13306 \
+    kooldev/tunnel
+```
+
+Now with that container running, you can access `localhost:13306` to reach the database behind the SSH tunnel.
+
 ### Environment variables
 
 | Variable | Default value | Description |
