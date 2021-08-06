@@ -1,14 +1,30 @@
-# TCP Tunneling for containers over SSH
+# TCP tunneling on containers - made easy
 
 ## Description
 
-This image is a super simple to use helper for using tunneling on your Docker project. This allows you to access remote resources network protected behind an SSH authentication entry server.
+Our images are super simple to use helpers for using tunneling on containers. For local Docker development or deploying a project to a Kubernetes cluster, this will come in hand if you need to access remote resources network protected behind an SSH authentication entry server, or simply set up a TCP proxy for exposing some private resource.
 
-It's simple to use, you just need to provide the environment variables. You can have this in your local project or deployed to a Kubernetes cluster very easily.
+It's simple to use, you just need to provide the required environment variables for each use case. You can have this in your local project or deployed to a Kubernetes cluster very easily.
 
-> **Important**: this image supports authentication using **SSH keys only**, password authentication is **not supported** at the moment.
+> **Important**: the SSH tunnel image supports authentication using **SSH keys only**, password authentication is **not supported** at the moment.
 
-### Usage
+## Available tags
+
+### kooldev/tunnel:ssh
+
+Image with AutoSSH helper to create SSH tunnels.
+
+- [kooldev/tunnel:ssh](https://github.com/kool-dev/docker-tunnel/blob/main/ssh/Dockerfile)
+
+### kooldev/tunnel:proxy
+
+Image with Haproxy TCP proxy setting, for just creating a simple TCP proxy.
+
+- [kooldev/tunnel:proxy](https://github.com/kool-dev/docker-tunnel/blob/main/proxy/Dockerfile)
+
+## Usage
+
+### SSH tunnel
 
 The basics to get a tunnel up and running on a Docker Compose or Kool project:
 
@@ -68,7 +84,11 @@ docker run --rm \
 
 Now with that container running, you can access `localhost:13306` to reach the database behind the SSH tunnel.
 
-### Environment variables
+## Environment variables
+
+The tunnels will work with just the setting of a few environment variables.
+
+### SSH Tunnel with `kooldev/tunnel:ssh`
 
 | Variable | Default value | Description |
 | - | - | - |
@@ -77,7 +97,21 @@ Now with that container running, you can access `localhost:13306` to reach the d
 | TUNNEL_SSH_PORT | `"22"` | The SSH port to use. |
 | TUNNEL_TARGET_HOST | `""` | The host of the target. This is usually an internal network address that is only accessible from within the SSH tunnel server. |
 | TUNNEL_TARGET_PORT | `""` | The port of the target. |
-| TUNNEL_LISTEN | `""` | The port to which the container should bind to. This is the port you are going to reach in the container to access the target host:post through the tunneling. |
+| TUNNEL_LISTEN | `"10000"` | The port to which the container should bind to. This is the port you are going to reach in the container to access the target host:post through the tunnel. |
+
+### TCP proxy with `kooldev/tunnel:proxy`
+
+| Variable | Default value | Description |
+| - | - | - |
+| TUNNEL_TARGET_HOST | `""` | The host of the proxy target. |
+| TUNNEL_TARGET_PORT | `""` | The port of the proxy target. |
+| TUNNEL_LISTEN | `"10000"` | The port to which the container should bind to. This is the port you are going to reach in the container to access the target host:post through the tunnel. |
+| TCP_PROXY_TIMEOUT_CONNECT | `"10s"` | Timeout for connection |
+| TCP_PROXY_TIMEOUT_CLIENT | `"30s"` | Timeout for client write wait |
+| TCP_PROXY_TIMEOUT_SERVER | `"180s"` | Timeout for server write wait |
+| TCP_PROXY_MAXCONN | `"50"` | Maximum number of client connections |
+
+> **Note**: the timeout and max conn variables above are passed to Haproxy configuration, so please refer to Haproxy docs for more details on those such settings.
 
 ## License
 

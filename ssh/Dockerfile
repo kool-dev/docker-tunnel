@@ -5,7 +5,7 @@ ENV TUNNEL_SSH_HOST ""
 ENV TUNNEL_SSH_PORT "22"
 ENV TUNNEL_TARGET_HOST ""
 ENV TUNNEL_TARGET_PORT ""
-ENV TUNNEL_LISTEN ""
+ENV TUNNEL_LISTEN "10000"
 
 # build image dependencies
 RUN apk add --update autossh && rm -rf /var/cache/apk/*
