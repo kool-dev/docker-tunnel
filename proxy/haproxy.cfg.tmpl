@@ -1,0 +1,16 @@
+defaults
+    # mode is inherited by sections that follow
+    mode tcp
+    timeout connect {{ .Env.TCP_PROXY_TIMEOUT_CONNECT }}
+    timeout client {{ .Env.TCP_PROXY_TIMEOUT_CLIENT }}
+    timeout server {{ .Env.TCP_PROXY_TIMEOUT_SERVER }}
+    maxconn {{ .Env.TCP_PROXY_MAXCONN }}
+
+frontend proxying
+    # receives traffic from clients
+    bind :{{ .Env.TUNNEL_LISTEN }}
+    default_backend target
+
+backend target
+    # relays the client messages to servers
+    server target {{ .Env.TUNNEL_TARGET_HOST }}:{{ .Env.TUNNEL_TARGET_PORT }}
