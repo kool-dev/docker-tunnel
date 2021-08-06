@@ -1,0 +1,4 @@
+scripts:
+  build:
+    - docker build --pull -t kooldev/tunnel:ssh ssh
+    - docker build --pull -t kooldev/tunnel:proxy proxy
